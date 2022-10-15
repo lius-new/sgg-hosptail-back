@@ -3,6 +3,7 @@ package com.lius.yygh.service.hospital.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lius.hospital.model.hosp.HospitalSet;
 import com.lius.yygh.service.hospital.service.HospitalService;
+import com.luis.yygh.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,18 @@ public class HospitalSetController {
     // 查询医院所有的信息
     @GetMapping("/findAll")
     @ApiOperation("查找所有的医院")
-    public List<HospitalSet> findAll(){
+    public Result<List<HospitalSet>> findAll(){
         List<HospitalSet> list = hospitalService.list();
-        list.forEach(System.out::println);
-
-        return list;
+        return Result.ok(list);
     }
+
     // 删除设置
     @DeleteMapping("/{id}")
     @ApiOperation("删除指定id的医院数据")
-    public boolean deleteById(@PathVariable long id){
+    public Result<Boolean> deleteById(@PathVariable long id){
         QueryWrapper<HospitalSet> hospitalSetQueryWrapper = new QueryWrapper<>();
         hospitalSetQueryWrapper.eq("id",id);
-        return hospitalService.remove(hospitalSetQueryWrapper);
+        boolean remove = hospitalService.remove(hospitalSetQueryWrapper);
+        return remove ? Result.ok() : Result.fail();
     }
 }
