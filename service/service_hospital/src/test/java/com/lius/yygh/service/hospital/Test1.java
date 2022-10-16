@@ -2,6 +2,8 @@ package com.lius.yygh.service.hospital;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lius.hospital.model.hosp.HospitalSet;
 import com.lius.yygh.service.hospital.service.HospitalService;
 import org.junit.Test;
@@ -60,6 +62,17 @@ public class Test1 {
 
         // 更新
         hospitalService.update(hospitalSet,hospitalSetUpdateWrapper);
+    }
+
+    // 测试分页查询
+    @Test
+    public void queryByPage() {
+        Page<HospitalSet> hospitalSetPage = new Page<>(0,2);
+        QueryWrapper<HospitalSet> hospitalSetQueryWrapper = new QueryWrapper<>();
+
+        Page<HospitalSet> page = hospitalService.page(hospitalSetPage, hospitalSetQueryWrapper);
+        List<HospitalSet> records = page.getRecords();
+        records.forEach(System.out::println);
     }
 
 }
